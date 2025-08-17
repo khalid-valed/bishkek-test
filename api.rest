@@ -1,0 +1,16 @@
+# Global definitions.
+http://localhost:8888/api/
+
+// Default headers.
+Accept: application/json
+Content-Type: application/json
+X-Header: Custom Data
+--
+# Request block that uses default values from the global section.
+--
+POST video-approved
+{
+  "file": "jflaskdfj.mp4",
+}
+--
+

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="My Rules">
+    <description>PHPMD Ruleset</description>
+    
+    <!-- General -->
+    <rule ref="rulesets/controversial.xml" />
+    <rule ref="rulesets/codesize.xml">
+        <properties>
+            <property name="method.size.warning" value="25" />
+            <property name="method.size.error" value="50" />
+            <property name="class.cyclomaticcomplexity.warning" value="10" />
+            <property name="class.cyclomaticcomplexity.error" value="20" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/unusedcode.xml">
+        <properties>
+            <property name="exclude" value="vendor/,tests/" />
+        </properties>
+    </rule>
+    
+    <!-- Design -->
+    <rule ref="rulesets/cleancode.xml" />
+    <rule ref="rulesets/design.xml" />
+    
+    <!-- Naming -->
+    <rule ref="rulesets/naming.xml" />
+    
+    <!-- Controversial -->
+    <rule ref="rulesets/controversial.xml">
+        <exclude name="ShortMethodName" />
+        <exclude name="CamelCaseVariableName" />
+    </rule>
+    
+</ruleset>
+

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+echo "Checking commit message ..."
+
+ERROR='\xE2\x9D\x8C'
+NO_COLOR='\033[0m'
+GREEN='\033[0;32m'
+CHECK_MARK='\xE2\x9C\x93'
+GREEN_CHECK_MARK="${GREEN}${CHECK_MARK}${NO_COLOR}"
+
+COMMIT_MESSAGE=${1}
+MAX_LINE_LENGTH=72
+MESSAGE_LINE_NUMBER=0
+HAS_ERROR=false
+
+while read -r line; do
+
+    if [ "${line:0:1}" == "#" ]; then
+        continue
+    fi
+
+    if [ $MESSAGE_LINE_NUMBER -eq 1 ]; then
+        if [ "${line}" != "" ]; then
+            echo "The commit message subject is not separated from the description."
+            echo "Please leave an empty line between first and second line of your commit message."
+
+            printf "%b ABORTING COMMIT!%b" "$ERROR" "$NO_COLOR"
+            exit 1
+        fi
+    fi
+
+    MESSAGE_LINE_NUMBER=$((MESSAGE_LINE_NUMBER+1))
+
+    if [ ${#line} -gt $MAX_LINE_LENGTH ]; then
+        echo "Commit message '${line}' in line $MESSAGE_LINE_NUMBER has ${#line} characters."
+        HAS_ERROR=true
+    fi
+
+done < "$COMMIT_MESSAGE"
+
+if [ $HAS_ERROR == true ]; then
+    echo "Commit message line length is limited to $MAX_LINE_LENGTH characters."
+    printf "%b ABORTING COMMIT!%b" "$ERROR" "$NO_COLOR"
+    exit 1
+fi
+
+printf "\n\n%b Commit message OK!\n" "${GREEN_CHECK_MARK}"
+exit 0
